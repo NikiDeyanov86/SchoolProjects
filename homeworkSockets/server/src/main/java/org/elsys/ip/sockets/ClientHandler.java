@@ -10,17 +10,19 @@ public class ClientHandler implements Runnable{
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
     private Socket socket;
     private BufferedReader in;
-    private BufferedWriter out;
-    private String clientUsername;
+    private PrintWriter out;
+
 
     public ClientHandler(Socket s) {
         try {
             this.socket = s;
-            this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            //this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            this.out = new PrintWriter(socket.getOutputStream(), true);
             this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             clientHandlers.add(this);
         } catch(IOException e ) {
-            this.serverDisconnect();
+            e.printStackTrace();
+            System.exit(-1);
         }
     }
 
@@ -32,30 +34,18 @@ public class ClientHandler implements Runnable{
             try{
                 messageFromClient = in.readLine();
                 if(messageFromClient.equals("quit") || messageFromClient.equals("exit")) {
-                    shutDown();
+                    out.println("shutdown");
+                    clientHandlers.remove(this);
+                    break;
                 }
             } catch(IOException e ) {
-                this.serverDisconnect();
+                e.printStackTrace();
+                System.err.println("here");
+                System.exit(-1);
                 break;
             }
         }
     }
-    public static void shutDown() {
-        for(ClientHandler it : clientHandlers) {
-            try {
-                it.socket.close();
-                it.serverDisconnect();
-            } catch( IOException e) {
-                e.printStackTrace();
-                System.exit(0);
-            }
-        }
-    }
 
-    public void serverDisconnect() {
-        clientHandlers.remove(this);
-        //System.err.println("server disconnect");
-        System.exit(0);
-    }
 
 }

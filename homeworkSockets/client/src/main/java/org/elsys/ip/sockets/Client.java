@@ -32,10 +32,14 @@ public class Client {
                 while(clientSocket.isConnected()) {
                     try {
                         msgFromChat = in.readLine();
+                        if(msgFromChat.equals("shutdown")) {
+                            System.err.println("server disconnect");
+                            System.exit(0);
+                        }
                         System.out.println(msgFromChat);
                     } catch(IOException e ) {
                         e.printStackTrace();
-                        System.exit(-1);
+                        break;
                     }
                 }
             }
@@ -43,9 +47,9 @@ public class Client {
     }
 
     public void sendMessage() throws IOException {
-        out.write("");
+        /*out.write("");
         out.newLine();
-        out.flush();
+        out.flush();*/
 
         Scanner scanner = new Scanner(System.in);
         while(clientSocket.isConnected()) {
@@ -64,6 +68,7 @@ public class Client {
             try {
                 Socket socket = new Socket(hostIp[0], Integer.parseInt(hostIp[1]));
                 Client client = new Client(socket);
+                client.listen();
                 client.sendMessage();
             } catch(UnknownHostException e) {
                 System.err.println("invalid host");

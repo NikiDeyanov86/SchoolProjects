@@ -34,7 +34,7 @@ public class Server {
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         if(args.length == 1) {
             try {
                 ServerSocket serverSocket = new ServerSocket(Integer.parseInt(args[0]));
@@ -44,7 +44,7 @@ public class Server {
                 System.err.println("port is already in use");
                 System.exit(2);
             } catch(IOException e) {
-                ClientHandler.shutDown();
+                //ClientHandler.shutDown();
             }
         }
         else {
