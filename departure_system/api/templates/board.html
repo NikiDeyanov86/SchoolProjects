@@ -1,0 +1,23 @@
+<body>
+    
+    <table border="1" cellspacing="0" >
+        
+        <tr>
+            <th>Train ID</th>
+            <th>Time</th>
+            <th>Destination</th>
+            <th>Status</th>
+        </tr>
+        
+        {% for train in trains %}
+            <tr>
+                <td>{{ train.train_id }}</td>
+                <td>{{ train.departure_time }}</td>
+                <td>{{ train.destination }}</td>
+                <td>{{ train.status }}</td>
+            </tr>
+        {% endfor %}
+        
+    </table>
+    
+</body>
