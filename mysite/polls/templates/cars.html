@@ -1,0 +1,17 @@
+<body>
+    {% include "navigation.html" %}
+    <div>
+        <ul>
+            {% for car in cars %}
+                <li>
+                    Brand: {{car.brand}} <br>
+                    Model: {{car.model}} <br>
+                    Color: {{car.color}} <br>
+                    Made {{car.made}} <br>
+                    Description: {{car.description}}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
