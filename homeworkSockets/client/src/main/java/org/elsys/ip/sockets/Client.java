@@ -1,10 +1,9 @@
 package org.elsys.ip.sockets;
 
-import java.awt.desktop.SystemEventListener;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Client {
@@ -33,7 +32,7 @@ public class Client {
                     try {
                         msgFromChat = in.readLine();
                         if(msgFromChat.equals("shutdown")) {
-                            System.err.println("server disconnect");
+                            System.out.println("server disconnect");
                             System.exit(0);
                         }
                         System.out.println(msgFromChat);
@@ -62,9 +61,13 @@ public class Client {
 
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         if(args.length == 1) {
             String[] hostIp = args[0].split(":", 2);
+            if(hostIp[1].length() != 4 || Integer.parseInt(hostIp[1]) <= 0) {
+                System.err.println("invalid arguments");
+                System.exit(1);
+            }
             try {
                 Socket socket = new Socket(hostIp[0], Integer.parseInt(hostIp[1]));
                 Client client = new Client(socket);

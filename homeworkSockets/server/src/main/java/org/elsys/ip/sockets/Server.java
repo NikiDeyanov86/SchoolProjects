@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.BindException;
 import java.net.PortUnreachableException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -35,16 +36,21 @@ public class Server {
 
 
     public static void main(String[] args) {
-        if(args.length == 1) {
+        if(args.length == 1 && Integer.parseInt(args[0]) > 0) {
             try {
+                if(args[0].length() != 4) {
+                    System.err.println("invalid arguments");
+                    System.exit(1);
+                }
                 ServerSocket serverSocket = new ServerSocket(Integer.parseInt(args[0]));
                 Server server = new Server(serverSocket);
                 server.start();
-            } catch(PortUnreachableException e) {
+            } catch(BindException e) {
                 System.err.println("port is already in use");
                 System.exit(2);
             } catch(IOException e) {
-                //ClientHandler.shutDown();
+                System.err.println("port is already in use");
+                System.exit(2);
             }
         }
         else {
