@@ -11,7 +11,7 @@ def board_json(request):
     response = urllib.request.urlopen(url)
     data = json.loads(response.read())
     trains = []
-    
+
     for train in data['data']:
         new_train = {}
         if train['relationships']['route']['data']['id'] != None:
@@ -27,15 +27,11 @@ def board_json(request):
                 if i['id'] == train['trip_id']:
                     train['destination'] = i['attributes']['headsign']
                     break
-        
     for i in data['included']:
         if i['type'] == "schedule":
             for train in trains:
                 if i['id'] == train["schedule_id"]:
                     train['departure_time'] = i['attributes']['departure_time']
-    
-    
     print(trains)
-  
     return render(request, 'board.html', {'trains' : trains})
      
