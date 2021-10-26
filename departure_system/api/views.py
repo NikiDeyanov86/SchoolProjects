@@ -11,7 +11,6 @@ def board_json(request):
     response = urllib.request.urlopen(url)
     data = json.loads(response.read())
     trains = []
-    #data е много общопонятно име
 
     for train in data['data']:
         new_train = {}
@@ -28,15 +27,11 @@ def board_json(request):
                 if i['id'] == train['trip_id']:
                     train['destination'] = i['attributes']['headsign']
                     break
-    #итератора 'i' не носи никаква информация какво съдържа.
     for i in data['included']:
         if i['type'] == "schedule":
             for train in trains:
                 if i['id'] == train["schedule_id"]:
                     train['departure_time'] = i['attributes']['departure_time']
-    #може да се оптимизират for циклите - вместо в три отделни може да е в един главен и два вложени
     print(trains)
-    #тоя принт не става ясно за какво е?
-    #нямаш управление на грешки
     return render(request, 'board.html', {'trains' : trains})
      
