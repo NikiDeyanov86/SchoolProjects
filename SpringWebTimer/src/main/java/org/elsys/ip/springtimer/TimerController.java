@@ -37,59 +37,6 @@ public class TimerController {
         return generatedId;
     }
 
-    /*@PostMapping
-    public ResponseEntity<PostResponseBody> createTimer(@RequestBody String request,
-                                                        @RequestHeader(value = "TIME-FORMAT", defaultValue = "time") String format) throws JSONException {
-            PostResponseBody response = null;
-            JSONObject json = new JSONObject(request);
-            Timer newTimer;
-            String name = null;
-            try {
-                name = (String) json.get("name");
-            } catch (JSONException e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            String randomID = randomID();
-            int allSeconds = 0;
-            boolean validInput = false;
-            try {
-                if (json.has("hours") && json.has("minutes") && json.has("seconds") && !json.has("time")) {
-                    validInput = true;
-                    int hours = Integer.parseInt(json.get("hours").toString());
-                    int minutes = Integer.parseInt(json.get("minutes").toString());
-                    int seconds = Integer.parseInt(json.get("seconds").toString());
-                    allSeconds = hours * 3600 + minutes * 60 + seconds;
-                } else if (json.has("time") && !json.has("hours") && !json.has("minutes") && !json.has("seconds")) {
-                    validInput = true;
-                    String[] time = json.get("time").toString().replace("\"", "").split(":", 3);
-                    allSeconds = Integer.parseInt(time[0]) * 3600 + Integer.parseInt(time[1]) * 60 + Integer.parseInt(time[2]);
-                }
-            } catch(NumberFormatException e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            if(!validInput) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            newTimer = new Timer(randomID, name, Instant.now(), Instant.now().plusSeconds(allSeconds));
-            timers.add(newTimer);
-            Duration duration = Duration.between(newTimer.getStart(), newTimer.getDuration());
-
-            if(format.equals("time")) {
-                response = new PostResponseBody(randomID, name, String.format("%02d:%02d:%02d",
-                        duration.toHours(),
-                        duration.toMinutesPart(),
-                        duration.toSecondsPart()));
-            }
-            else if(format.equals("seconds")) {
-                response = new PostResponseBody(randomID, name, String.format("%d", allSeconds));
-            }
-            else if(format.equals("hours-minutes-seconds")) {
-
-            }
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-
-    }*/
-
     @PostMapping
     public ResponseEntity<PostResponseBody> createTimer(@RequestBody String request,
                                                         @RequestHeader(value = "TIME-FORMAT", defaultValue = "time") String format) throws JSONException {

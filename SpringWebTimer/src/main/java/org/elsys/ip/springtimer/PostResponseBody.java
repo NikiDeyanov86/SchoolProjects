@@ -77,19 +77,19 @@ public class PostResponseBody {
         this.totalSeconds = totalSeconds;
     }
 
-    public String getHour() {
+    public String getHours() {
         return hours;
     }
 
-    public void setHour(String hour) {
+    public void setHours(String hour) {
         this.hours = hour;
     }
 
-    public String getMinute() {
+    public String getMinutes() {
         return minutes;
     }
 
-    public void setMinute(String minute) {
+    public void setMinutes(String minute) {
         this.minutes = minute;
     }
 
