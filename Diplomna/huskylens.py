@@ -3,7 +3,7 @@ sys.path.append(".")
 import time
 import json
 from huskylib import HuskyLensLibrary
-from test_motors import MotorSide, MotorDriver
+from motorslib import MotorSide, MotorDriver
 
 in1 = 22
 in2 = 23
