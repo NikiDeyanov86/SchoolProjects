@@ -1,14 +1,18 @@
 import paho.mqtt.client as mqtt
-# Import the motors library
+from motorslib import MotorSide, MotorDriver, in1, in2, in3, in4, ena, enb
+
+left = MotorSide(ena, in1, in2)
+right = MotorSide(enb, in3, in4)
+motors = MotorDriver(left, right)
 
 clientName = "Movement"
-serverAddress = "raspberrypi"
+serverAddress = "raspberrypi" # 192.168.1.12
 mqttClient = mqtt.Client(clientName)
 
 def connect(client, userdata, flags, rc):
     print("subscribing")
     mqttClient.subscribe("movement/+")
-    print("subscribed")
+    print("subscribed to <movement/+>")
     
 def messageDecoder(client, userdata, msg):
     message = msg.payload.decode(encoding='UTF-8')
@@ -23,39 +27,43 @@ def messageDecoder(client, userdata, msg):
         speed = int(split[2])
         
         if direction == "forward":
-            # motor.move_forward_hl(seconds, speed)
-            # motor.stop()
-            pass
+            motors.move_forward_hl(seconds, speed)
+            motors.stop()
+            
         elif direction == "backward":
-            # motor.move_backwards_hl(seconds, speed)
-            # motor.stop()
-            pass
+            motors.move_backward_hl(seconds, speed)
+            motors.stop()
+            
         elif direction == "left":
-            # motor.turn_left_hl(seconds, speed)
-            # motor.stop()
-            pass
+            motors.turn_left_hl(seconds, speed)
+            motors.stop()
+            
         elif direction == "right":
-            # motor.turn_right_hl(seconds, speed)
-            # motor.stop()
+            motors.turn_right_hl(seconds, speed)
+            motors.stop()
+            
+        elif direction == "disconnected":
+            # huskylens is down
+            # tell user to switch to manual mode
             pass
     
     elif topic == "movement/manual":
         # Data from remote client, ex. "left" ---- time ----> "stop"
         direction = message
         if direction == "forward":
-            # motor.move_forward(speed)
+            # motors.forward(speed)
             pass
         elif direction == "backward":
-            # motor.move_backwards(speed)
+            # motors.backward(speed)
             pass
         elif direction == "left":
-            # motor.turn_left(speed)
+            # motors.left(speed)
             pass
         elif direction == "right":
-            # motor.turn_right(speed)
+            # motors.right(speed)
             pass
         elif direction == "stop":
-            # motor.stop()
+            # motors.stop()
             pass
         
 mqttClient.on_connect = connect
