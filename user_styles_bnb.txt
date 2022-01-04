@@ -1,0 +1,60 @@
+.home {
+    background-color: #403c32;
+    color: white;
+    width: 100%;
+}
+
+/*div.white_wrapper_tl {
+    width: 100%;
+}
+div.white_wrapper_bl {
+    width: 100%;
+}
+div.white_wrapper_tr {
+    width: 100%;
+}
+div.white_wrapper_br {
+    width: 100%;
+}*/
+
+div#header {
+    width:100%;
+    height: 280px;
+    background: #48140c
+}
+div#header div.top_header {
+    /*height: 50px;*/
+    margin-bottom: 30px;
+    
+}
+ul.quick_menu li {
+    display: inline;
+    
+}
+ul.quick_menu li a {
+    color: white;
+}
+ul.quick_menu {
+    width: 800px;
+    height: auto;
+}
+div#navigation {
+    margin-top: 80px;
+} 
+div#navigation td {
+    border-right: 1px solid black;
+}
+div#navigation td.first a{
+    padding-top: 10px;
+    background: white;
+}
+div#navigation a span {
+    background: white;
+}
+div#navigation td.first a span {
+    background: white;
+}
+div#navigation td a{
+    padding-top: 10px;
+    background: white;
+}
