@@ -5,7 +5,7 @@ import json
 from huskylib import HuskyLensLibrary
 
 clientName = "Huskylens"
-serverAddress = "raspberrypi"  # 192.168.1.12
+serverAddress = "raspberrypi"  # 192.168.1.22
 mqttClient = mqtt.Client(clientName)
 topic = "movement/auto"
 
@@ -14,6 +14,11 @@ def connect(client, userdata, flags, rc):
 
 def on_publish(client, userdata, result):             
     print("Huskylens published \n")
+    
+mqttClient.on_connect = connect
+mqttClient.on_publish = on_publish 
+mqttClient.will_set(topic, "disconnected", qos = 1, retain=False)                        
+mqttClient.connect(serverAddress)  
 
 motorSpeed = 80
 leftOffset = 125
@@ -37,12 +42,6 @@ while hl.knock() != "Knock Recieved":
     sec = sec + 1
 
 hl.algorthim("ALGORITHM_OBJECT_TRACKING")
-
-mqttClient.on_connect = connect
-mqttClient.on_publish = on_publish 
-mqttClient.will_set(topic, "disconnected", qos = 1, retain=False)                        
-mqttClient.connect(serverAddress)  
-
 
 while hl.knock() == "Knock Recieved":
     
