@@ -55,7 +55,7 @@ div#header div.top_header ul.languages li a {
 /* NAVIGATION */
 
 div#navigation {
-    margin-top: 7.5vh;
+    margin-top: 5.4vh;
     width: 100vw;
     margin-left: 5px;
     margin-right: 10px;
@@ -94,6 +94,7 @@ div#navigation td a{
     height: 13vh;
     background: #3d3d3d;
     white-space: pre-wrap;
+    border-radius: 5px;
 }
 div#header div.top_header {
     margin: 0px 30px 0px 20px;
@@ -102,6 +103,37 @@ div#header div.top_header {
 div#header div.top_header {
     margin: 0;
     width: 90vw;
+}
+form.search_tool {
+    width: 25vw;
+}
+form.search_tool input {
+    width: 16vw;
+    height: 5vh;
+    border-radius: 20px;
+}
+form.search_tool div.buttons {
+    width: auto;
+    height: auto;
+    background-color: black;
+    border: 0;
+}
+form.search_tool div.buttons button {
+    width: 5vw;
+    height: 5.5vh;
+    color: #e6e6e6;
+    border-radius: 20px;
+    border: 0;
+    font-size: 12px;
+    background: #3d3d3d;
+}
+form.search_tool a {
+    font-size: 11px;
+    color: #d6d2d2;
+    margin-top: 10px;
+    float: left;
+    width: auto;
+    margin-left: 16vw;
 }
 
 /* BODY CONTENT */
