@@ -1,0 +1,21 @@
+<body>
+    
+    <table border="1" cellspacing="0" >
+        
+        <tr>
+            <th>Minimum temperature</th>
+            <th>Maximum temperature</th>
+            <th>Average temperature</th>
+        </tr>
+        
+        {% for t in temperatures %}
+            <tr>
+                <td>{{ t.min }}</td>
+                <td>{{ t.max }}</td>
+                <td>{{ t.avg }}</td>
+            </tr>
+        {% endfor %}
+        
+    </table>
+    
+</body>
