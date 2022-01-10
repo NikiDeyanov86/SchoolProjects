@@ -6,7 +6,7 @@ right = MotorSide(enb, in3, in4)
 motors = MotorDriver(left, right)
 
 clientName = "Movement"
-serverAddress = "localhost" #"192.168.1.22"
+serverAddress = "localhost" 
 mqttClient = mqtt.Client(clientName)
 
 def connect(client, userdata, flags, rc):
