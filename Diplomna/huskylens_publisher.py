@@ -35,16 +35,15 @@ hl = None
 
 # make an if that catches exception if serial connection
 # failes and tries to connect on USB1
-def start_serial_communication():
-    try:
-        hl = HuskyLensLibrary("SERIAL","/dev/ttyUSB0", 115200)
+try:
+    hl = HuskyLensLibrary("SERIAL","/dev/ttyUSB0", 115200)
+except: 
+    try: 
+        hl = HuskyLensLibrary("SERIAL","/dev/ttyUSB1", 115200)
     except: 
-        try: 
-            hl = HuskyLensLibrary("SERIAL","/dev/ttyUSB1", 115200)
-        except: 
-            return False  
-            
-    return True
+        print("Cannot create serial communication, check your hardware connections!")
+        mqttClient.publish(topic, "disconnected")
+        sys.exit(1)
       
 def try_connection(timeout):  
     
@@ -126,7 +125,7 @@ def tracking():
     
 if __name__ == '__main__':
     try:
-        if start_serial_communication() is not False:
+        if hl != None:
             if hl.knock() == "Knock Recieved":
                 tracking()
             else:
@@ -135,14 +134,12 @@ if __name__ == '__main__':
                 else: 
                     print("Failed to connect with huskylens, check hardware")
                     mqttClient.publish(topic, "disconnected")
-                    sys.exit(0)
-        else:
-            print("Failed to connect with huskylens(serial), check hardware")
+                    sys.exit(1)
+        else: 
+            print("Failed to connect with huskylens, check hardware")
             mqttClient.publish(topic, "disconnected")
-            sys.exit(0) 
-            
+            sys.exit(1)
     except KeyboardInterrupt:
         print('Interrupted')
-        mqttClient.publish(topic, "disconnected")
         sys.exit(0)
         
