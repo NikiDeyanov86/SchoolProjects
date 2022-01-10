@@ -30,7 +30,7 @@ bottomOffset = 160
 optWidthLow = 50
 optWidthHigh = 80
 prev_target = None
-counter = 0
+
 hl = None
 
 # make an if that catches exception if serial connection
@@ -59,6 +59,7 @@ def try_connection(timeout):
 def tracking():
     hl.algorthim("ALGORITHM_OBJECT_TRACKING")
 
+    counter = 0
     while hl.knock() == "Knock Recieved":
         
         # Check for read response error 
