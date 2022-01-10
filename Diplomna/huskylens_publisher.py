@@ -118,6 +118,7 @@ def tracking():
         else:
             print("Object lost")
             mqttClient.publish(topic, "object_lost")
+            time.sleep(1)
 
     print("Connection error occured")
     mqttClient.publish(topic, "disconnected")
