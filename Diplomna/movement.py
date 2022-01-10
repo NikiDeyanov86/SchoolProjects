@@ -6,7 +6,7 @@ right = MotorSide(enb, in3, in4)
 motors = MotorDriver(left, right)
 
 clientName = "Movement"
-serverAddress = "raspberrypi" # 192.168.1.12
+serverAddress = "localhost" #"192.168.1.22"
 mqttClient = mqtt.Client(clientName)
 
 def connect(client, userdata, flags, rc):
@@ -27,18 +27,22 @@ def messageDecoder(client, userdata, msg):
         speed = int(split[2])
         
         if direction == "forward":
+            print("Forward")
             motors.move_forward_hl(seconds, speed)
             motors.stop()
             
         elif direction == "backward":
+            print("Backward")
             motors.move_backward_hl(seconds, speed)
             motors.stop()
             
         elif direction == "left":
+            print("Left")
             motors.turn_left_hl(seconds, speed)
             motors.stop()
             
         elif direction == "right":
+            print("Right")
             motors.turn_right_hl(seconds, speed)
             motors.stop()
             
