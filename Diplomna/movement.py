@@ -27,36 +27,37 @@ def messageDecoder(client, userdata, msg):
             # switch to manual mode
             pass
           
-        if message == "object_lost":
+        elif message == "object_lost":
             print("Object lost")
             # object is lost
             # switch to manual mode
             pass
         
-        split = message.split(",")
-        direction = split[0]
-        seconds = float(split[1])
-        speed = int(split[2])
-        
-        if direction == "forward":
-            print("Forward")
-            motors.move_forward_hl(seconds, speed)
-            motors.stop()
+        else: 
+            split = message.split(",")
+            direction = split[0]
+            seconds = float(split[1])
+            speed = int(split[2])
             
-        elif direction == "backward":
-            print("Backward")
-            motors.move_backward_hl(seconds, speed)
-            motors.stop()
-            
-        elif direction == "left":
-            print("Left")
-            motors.turn_left_hl(seconds, speed)
-            motors.stop()
-            
-        elif direction == "right":
-            print("Right")
-            motors.turn_right_hl(seconds, speed)
-            motors.stop()
+            if direction == "forward":
+                print("Forward")
+                motors.move_forward_hl(seconds, speed)
+                motors.stop()
+                
+            elif direction == "backward":
+                print("Backward")
+                motors.move_backward_hl(seconds, speed)
+                motors.stop()
+                
+            elif direction == "left":
+                print("Left")
+                motors.turn_left_hl(seconds, speed)
+                motors.stop()
+                
+            elif direction == "right":
+                print("Right")
+                motors.turn_right_hl(seconds, speed)
+                motors.stop()
             
         
     
