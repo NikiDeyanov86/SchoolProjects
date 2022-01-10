@@ -21,6 +21,18 @@ def messageDecoder(client, userdata, msg):
     
     if topic == "movement/auto":
         # Data from Huskylens, ex. "<direction>,<seconds>,<speed>"
+        if message == "disconnected":
+            print("Connection with huskylens ended")
+            # huskylens is down
+            # switch to manual mode
+            pass
+          
+        if message == "object_lost":
+            print("Object lost")
+            # object is lost
+            # switch to manual mode
+            pass
+        
         split = message.split(",")
         direction = split[0]
         seconds = float(split[1])
@@ -46,10 +58,7 @@ def messageDecoder(client, userdata, msg):
             motors.turn_right_hl(seconds, speed)
             motors.stop()
             
-        elif direction == "disconnected":
-            # huskylens is down
-            # tell user to switch to manual mode
-            pass
+        
     
     elif topic == "movement/manual":
         # Data from remote client, ex. "left" ---- time ----> "stop"
