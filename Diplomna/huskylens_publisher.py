@@ -5,20 +5,26 @@ import json
 from huskylib import HuskyLensLibrary
 
 clientName = "Huskylens"
-serverAddress = "raspberrypi"  # 192.168.1.22
+serverAddress = "localhost" # 192.168.1.22
+print("before creating client")
 mqttClient = mqtt.Client(clientName)
+print("creating client")
 topic = "movement/auto"
 
-def connect(client, userdata, flags, rc):
+def on_connect(client, userdata, flags, rc):
     print("Huskylens connected!")
 
 def on_publish(client, userdata, result):             
     print("Huskylens published \n")
     
-mqttClient.on_connect = connect
-mqttClient.on_publish = on_publish 
+mqttClient.on_connect = on_connect
+mqttClient.on_publish = on_publish
+print("Before will set")
 mqttClient.will_set(topic, "disconnected", qos = 1, retain=False)                        
-mqttClient.connect(serverAddress)  
+print("before connecting to broker")
+mqttClient.connect(serverAddress, 1883) 
+print("connected to broker")
+mqttClient.loop_start()
 
 motorSpeed = 80
 leftOffset = 125
@@ -30,6 +36,7 @@ optWidthHigh = 80
 prev_target = None
 counter = 0
 
+print("interfacing serial connection")
 hl = HuskyLensLibrary("SERIAL","/dev/ttyUSB0", 115200)
 sec = 0
 while hl.knock() != "Knock Recieved":
