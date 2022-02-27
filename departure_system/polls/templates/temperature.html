@@ -7,15 +7,11 @@
             <th>Maximum temperature</th>
             <th>Average temperature</th>
         </tr>
-        
-        {% for t in temperatures %}
-            <tr>
-                <td>{{ t.min }}</td>
-                <td>{{ t.max }}</td>
-                <td>{{ t.avg }}</td>
-            </tr>
-        {% endfor %}
-        
+        <tr>
+            <td style="text-align: center">{{ temperatures.min }}</td>
+            <td style="text-align: center">{{ temperatures.max }}</td>
+            <td style="text-align: center">{{ temperatures.avg }}</td>
+        </tr>
     </table>
     
 </body>
