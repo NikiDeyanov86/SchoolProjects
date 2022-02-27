@@ -18,6 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -29,6 +30,7 @@ public class RoomController {
     public String allRooms(WebRequest request, Model model) {
         model.addAttribute("newRoom", new RoomDto());
         model.addAttribute("rooms",  roomService.getRooms());
+        model.addAttribute("errors", new HashMap<String, String>());
 
         return "rooms";
     }
@@ -39,6 +41,7 @@ public class RoomController {
         try {
             room = roomService.getRoomById(roomId);
         } catch (RoomNotExistException e) {
+            model.addAttribute("message", "Room with the selected id doesn't exist");
             return "error";
         }
 
