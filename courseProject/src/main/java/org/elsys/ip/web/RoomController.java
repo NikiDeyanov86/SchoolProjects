@@ -9,7 +9,9 @@ import org.elsys.ip.web.model.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +20,6 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -28,20 +29,36 @@ public class RoomController {
 
     @GetMapping("/rooms")
     public String allRooms(WebRequest request, Model model) {
-        model.addAttribute("newRoom", new RoomDto());
-        model.addAttribute("rooms",  roomService.getRooms());
-        model.addAttribute("errors", new HashMap<String, String>());
+        model.addAttribute("room", new RoomDto());
+        model.addAttribute("rooms", roomService.getRooms());
 
         return "rooms";
     }
 
+    @PostMapping("/rooms")
+    public String createRoom(@ModelAttribute("room") @Valid RoomDto roomDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("rooms", roomService.getRooms());
+            return "rooms";
+        }
+
+        try {
+            RoomDto room = roomService.createRoom(roomDto.getName());
+            return "redirect:/room?id=" + room.getId();
+        } catch (RoomAlreadyExistException e) {
+            bindingResult.rejectValue("name", "room", "A room with that name already exists.");
+            model.addAttribute("rooms", roomService.getRooms());
+            return "rooms";
+        }
+    }
+
     @GetMapping("/room")
-    public String singleRoom(WebRequest request, Model model, @RequestParam("id") String roomId) {
+    public String singleRoom(Model model, @RequestParam("id") String roomId) {
         RoomDto room;
         try {
             room = roomService.getRoomById(roomId);
         } catch (RoomNotExistException e) {
-            model.addAttribute("message", "Room with the selected id doesn't exist");
+            model.addAttribute("message", "There is no room with id " + roomId);
             return "error";
         }
 
@@ -50,20 +67,18 @@ public class RoomController {
     }
 
     @PostMapping("/room")
-    public String createRoom(@ModelAttribute("room") @Valid RoomDto roomDto, BindingResult bindingResult, Model model) {
-        if(bindingResult.hasErrors()){
-            model.addAttribute("rooms",  roomService.getRooms());
-            return "rooms";
-        }
-
+    public String joinRoom(Model model, @RequestParam boolean join, @RequestParam("id") String roomId) {
         try {
-            roomService.createRoom(roomDto);
-        } catch (RoomAlreadyExistException e) {
-            model.addAttribute("message", "A room with this name already exists");
-            return "rooms";
+            if (join) {
+                roomService.addMyselfAsParticipant(roomId);
+            } else {
+                roomService.removeMyselfAsParticipant(roomId);
+            }
+        } catch (RoomNotExistException e) {
+            model.addAttribute("message", "There is no room with id " + roomId);
+            return "error";
         }
-        return "room";
+        return "redirect:/room?id=" + roomId;
     }
-
 
 }
