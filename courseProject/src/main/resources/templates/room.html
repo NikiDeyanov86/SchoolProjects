@@ -3,22 +3,22 @@
 <div th:replace="fragments/menu.html :: menu" />
 <h1 th:text="#{label.room.title}">form</h1>
 
-<p th:text="${room.name}"></p>
+<p th:text="${room.name}" id="room_name"></p>
 <p th:text="${room.id}"></p>
 
 <p th:text="#{label.room.participants}"></p>
-<p th:each="user: ${room.participants}" th:text="${user.email}">
+<p th:each="user: ${room.participants}" th:text="${user.email}" id="participant">
 </p>
 
 <form th:if="!${room.isCurrentUserJoined}" action="/room" method="POST" enctype="utf8">
     <input type="hidden" value="true" name="join"/>
     <input type="hidden" th:value="${room.id}" name="id"/>
-    <button type="submit" th:text="#{label.room.join}">join</button>
+    <button type="submit" id="join_btn" th:text="#{label.room.join}">join</button>
 </form>
 <form th:if="${room.isCurrentUserJoined}" action="/room" method="POST" enctype="utf8">
     <input type="hidden" value="false" name="join"/>
     <input type="hidden" th:value="${room.id}" name="id"/>
-    <button type="submit" th:text="#{label.room.leave}">leave</button>
+    <button type="submit" id="leave_btn" th:text="#{label.room.leave}">leave</button>
 </form>
 
 </body>

@@ -17,6 +17,9 @@ public class HomePage extends AbstractPage {
     @FindBy(how = How.ID, using = "logoutButton")
     private WebElement logoutButton;
 
+    @FindBy(how = How.ID, using = "roomsButton")
+    private WebElement roomsButton;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -29,6 +32,11 @@ public class HomePage extends AbstractPage {
     public LoginPage login() {
         loginButton.click();
         return PageFactory.initElements(driver, LoginPage.class);
+    }
+
+    public RoomsPage rooms() {
+        roomsButton.click();
+        return PageFactory.initElements(driver, RoomsPage.class);
     }
 
     public boolean isAuthenticated() {

@@ -1,9 +1,7 @@
 package org.elsys.ip.web;
 
 import org.elsys.ip.selenium.SeleniumConfig;
-import org.elsys.ip.web.pageobjects.HomePage;
-import org.elsys.ip.web.pageobjects.LoginPage;
-import org.elsys.ip.web.pageobjects.RegistrationPage;
+import org.elsys.ip.web.pageobjects.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -110,5 +108,21 @@ public class RegistrationTest {
         assertThat(loginPage.getErrors()).hasSize(1);
         assertThat(loginPage.getErrors()).containsExactly("Bad credentials");
 
+    }
+
+    @Test
+    public void createRoom() throws InterruptedException {
+        driver.get(baseAddress);
+        HomePage homePage = PageFactory.initElements(driver, HomePage.class);
+
+        RegistrationPage registrationPage = homePage.register();
+        homePage = registrationPage.register("First Name", "Last Name", "email@email.com", "password");
+        LoginPage loginPage = homePage.login();
+        homePage = loginPage.login("email@email.com", "password");
+
+        RoomsPage roomsPage = homePage.rooms();
+        RoomPage roomPage = roomsPage.createRoom("room1");
+        assertThat(roomPage.getRoomName()).isEqualTo("room1");
+        assertThat(roomPage.getParticipantName()).isEqualTo("email@email.com");
     }
 }

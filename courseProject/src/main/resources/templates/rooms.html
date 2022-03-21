@@ -7,11 +7,12 @@
     <label th:text="#{label.room.name}">first</label>
     <input th:field="*{name}"/>
     <p th:each="error: ${#fields.errors('name')}"
+       class="error"
        th:text="${error}" style="color:red;">Validation error</p>
   </div>
   <p th:each="error : ${#fields.errors('global')}"
      th:text="${error}" style="color:red;">Validation error</p>
-  <button type="submit" th:text="#{label.form.submit}">create</button>
+  <button type="submit" id="submit_btn" th:text="#{label.form.submit}">create</button>
 </form>
 
 <p th:text="#{label.rooms.list}"></p>
