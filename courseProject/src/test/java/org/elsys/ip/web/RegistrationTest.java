@@ -111,7 +111,7 @@ public class RegistrationTest {
     }
 
     @Test
-    public void createRoom() throws InterruptedException {
+    public void createRoomAndTestJoinAndLeave() throws InterruptedException {
         driver.get(baseAddress);
         HomePage homePage = PageFactory.initElements(driver, HomePage.class);
 
@@ -124,5 +124,37 @@ public class RegistrationTest {
         RoomPage roomPage = roomsPage.createRoom("room1");
         assertThat(roomPage.getRoomName()).isEqualTo("room1");
         assertThat(roomPage.getParticipantName()).isEqualTo("email@email.com");
+
+        roomPage = roomPage.leave();
+        assertThat(roomPage.getParticipantName()).isEqualTo(null);
+
+        roomPage = roomPage.join();
+        assertThat(roomPage.getParticipantName()).isEqualTo("email@email.com");
     }
+    
+    @Test
+    public void createInvalidRoom() throws InterruptedException {
+        driver.get(baseAddress);
+        HomePage homePage = PageFactory.initElements(driver, HomePage.class);
+
+        RegistrationPage registrationPage = homePage.register();
+        homePage = registrationPage.register("First Name", "Last Name", "email@email.com", "password");
+        LoginPage loginPage = homePage.login();
+        homePage = loginPage.login("email@email.com", "password");
+
+        RoomsPage roomsPage = homePage.rooms();
+        RoomPage roomPage = roomsPage.createRoom("room1");
+        assertThat(roomPage.getRoomName()).isEqualTo("room1");
+
+        RoomsPage roomsFailPage = homePage.rooms();
+        roomsFailPage.createRoom("room", true);
+        assertThat(roomsFailPage.getErrors()).hasSize(1);
+        assertThat(roomsFailPage.getErrors()).containsExactly("The name should be more than 4 letters long.");
+
+        roomsFailPage.createRoom("room1", true);
+        assertThat(roomsFailPage.getErrors()).hasSize(1);
+        assertThat(roomsFailPage.getErrors()).containsExactly("A room with that name already exists.");
+    }
+
+
 }

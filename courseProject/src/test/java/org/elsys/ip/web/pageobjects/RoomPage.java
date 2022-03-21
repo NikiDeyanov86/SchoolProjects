@@ -3,6 +3,7 @@ package org.elsys.ip.web.pageobjects;
 import org.apache.tomcat.jni.Time;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -10,6 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.io.Console;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -25,12 +27,12 @@ public class RoomPage extends AbstractPage {
         super(driver);
     }
 
-    public RoomPage join(String username, String password) {
+    public RoomPage join() {
         joinButton.click();
         return PageFactory.initElements(driver, RoomPage.class);
     }
 
-    public RoomPage leave(String username, String password) {
+    public RoomPage leave() {
         leaveButton.click();
         return PageFactory.initElements(driver, RoomPage.class);
     }
@@ -40,6 +42,11 @@ public class RoomPage extends AbstractPage {
     }
 
     public String getParticipantName() {
-        return driver.findElement(By.cssSelector("p#participant")).getText();
+        try {
+            return driver.findElement(By.cssSelector("p#participant")).getText();
+        }
+        catch(WebDriverException e) {
+            return null;
+        }
     }
 }
