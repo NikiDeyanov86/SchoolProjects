@@ -131,7 +131,7 @@ public class RegistrationTest {
         roomPage = roomPage.join();
         assertThat(roomPage.getParticipantName()).isEqualTo("email@email.com");
     }
-    
+
     @Test
     public void createInvalidRoom() throws InterruptedException {
         driver.get(baseAddress);
